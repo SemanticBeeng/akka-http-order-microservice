@@ -95,8 +95,4 @@ package object domain {
     def result : ResultCode
     def orderSummary : OrderSummary
   }
-
-  //  trait PlaceOrder extends Command
-  //
-  //  trait ReviewOrderHistory extends Command
 }
