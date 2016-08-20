@@ -36,16 +36,36 @@ trait Service extends Protocols {
   val routes = {
     import domain.Services._
     import scenarios._
+    import orderMgmr._
 
     logRequestResult("akka-http-microservice") {
       pathPrefix(orderMgmr.name) {
-          (post & path(orderMgmr.api.productAdd) & entity(as[ProductAddRequest])) { productAddRequest =>
-            complete {
 
-              //@todo ToResponseMarshallable.apply(ProductAddTest.OrderMgmtService_productAdd.productAdd(productAddRequest))
-              ToResponseMarshallable.apply(ProductAddTest.OrderMgmtService_productAdd.response)
-            }
+        /**
+          *
+          */
+        (post & pathPrefix(api.productAdd) & entity(as[ProductAddRequest])) { productAddRequest =>
+          complete {
+
+            // @todo fix Future marshalling
+            //ToResponseMarshallable.apply(ProductAddTest.orderMgmtService.productAdd(productAddRequest))
+            //ProductAddTest.orderMgmtService.productAdd(productAddRequest).mapTo[ToResponseMarshallable]
+
+            ToResponseMarshallable.apply(ProductAddTest.orderMgmtService.response)
           }
+        } ~
+          /**
+            *
+            */
+        (get & pathPrefix(api.ordersView) & path(Segment)) { customerId =>
+          complete {
+
+            // @todo fix Future marshalling
+            //ToResponseMarshallable.apply(OrdersViewTest.orderMgmtService.ordersView(customerId.toLong))
+
+            ToResponseMarshallable.apply(OrdersViewTest.orderMgmtService.response)
+          }
+        }
       }
     }
   }

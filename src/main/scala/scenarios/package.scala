@@ -13,10 +13,6 @@ package object scenarios {
 
   case class AuthenticationInfo(fName : String, lName : String, orbitalCoordinates: OrbitalCoordinates) extends domain.AuthenticationInfo
 
-  case class ProductAddRequest(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty) extends domain.ProductAddRequest
-
-  case class ProductAddResponse(result : domain.ResultCode, orderSummary : OrderSummary) extends domain.ProductAddResponse
-
   case class OrderSummary(customerId : domain.CustomerId, order : Order) extends domain.OrderSummary
 
   case class OrderItem(productId : domain.ProductId, qty : domain.ProductQty) extends domain.OrderItem
@@ -37,6 +33,10 @@ package object scenarios {
     val qty = 7
   }
 
+  case class ProductAddRequest(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty) extends domain.ProductAddRequest
+
+  case class ProductAddResponse(result : domain.ResultCode, orderSummary : OrderSummary) extends domain.ProductAddResponse
+
   /**
     *
     */
@@ -46,7 +46,7 @@ package object scenarios {
     val orderSummary : OrderSummary = OrderSummary(customer._3, order)
     val result: domain.ResultCode = true
 
-    val OrderMgmtService_productAdd = new domain.OrderMgmtService {
+    val orderMgmtService = new domain.OrderMgmtService {
 
       val request = ProductAddRequest(auth, xspaceIceCream, qty)
       val response = ProductAddResponse(result, orderSummary)
@@ -74,17 +74,18 @@ package object scenarios {
 
     val order1 = Order(customer._3, date = "2016/08/27", details = List(OrderItem(xspaceIceCream, qty)))
     val order2 = Order(customer._3, date = "2016/08/28", details = List(OrderItem(xspaceBloodSugarPills, qty * 2)))
+    val someOtherCustomerId = 10202
     val order3 = Order(10202, date = "2017/08/27", details = List(OrderItem(xspaceIceCream, qty)))
-
-    val result: domain.ResultCode = true
 
     case class DbEntry(customerId: domain.CustomerId, order: Order)
 
-    val orders : List[DbEntry] = ???
+    val orders : List[DbEntry] = List(
+      DbEntry(order1.customerId, order1),
+      DbEntry(order2.customerId, order2),
+      DbEntry(order3.customerId, order3)
+    )
 
-    def ordersFor(customerId: domain.CustomerId) : List[Order] = orders.filter(e => e.customerId == customerId).map(e => e.order)
-
-    val OrderMgmtService_ordersView = new domain.OrderMgmtService {
+    val orderMgmtService = new domain.OrderMgmtService {
 
       /**
         * @see [[api.productAdd]]
@@ -96,10 +97,17 @@ package object scenarios {
         */
       override def orderPlace(): Unit = ???
 
+      def ordersFor(customerId: domain.CustomerId) : List[Order] = orders.filter(e => e.customerId == customerId).map(e => e.order)
+
+      val request = customer._3
+      val response = ordersFor(customer._3)
+
       /**
         * @see [[api.ordersView]]
         */
-      override def ordersView(customerId : domain.CustomerId): Future[List[domain.Order]] = ???
+      override def ordersView(customerId : domain.CustomerId): Future[List[Order]] = {
+        Future { response }
+      }
     }
   }
 }
