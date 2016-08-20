@@ -1,12 +1,11 @@
 import akka.actor.ActorSystem
 import akka.event.{LoggingAdapter, Logging}
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.marshalling.ToResponseMarshallable
-import scenarios.ProductAddTest1._
 
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import akka.http.scaladsl.marshalling.ToResponseMarshallable
+import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.Config
 import com.typesafe.config.ConfigFactory
@@ -96,8 +95,7 @@ trait Service extends Protocols {
             complete {
 
               //ProductAddSrv1.execute(productAddRequest).map[ToResponseMarshallable]
-              //Future{ProductAddTest1.productAddResponse}.map[ToResponseMarshallable]
-              null
+              ProductAddTest1.productAddResponse
             }
           }
       }
