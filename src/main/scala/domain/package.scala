@@ -54,12 +54,35 @@ package object domain {
     def order : Order
   }
 
+  object Services {
+
+    object orderMgmr  {
+      val name = "orderMgmr"
+
+      object api {
+        val productAdd = "productAdd"
+        val orderPlace = "orderPlace"
+        val ordersView = "ordersView"
+      }
+    }
+  }
+
   trait OrderMgmtService extends Service {
 
-    //def productAdd(auth: AuthenticationInfo, productId: ProductId, qty: ProductQty) : Future[Either[ResultCode, OrderSummary]]
-//    def request: ProductAddRequest
-//    def response: ProductAddResponse
-    def execute(request: ProductAddRequest)(implicit ec: ExecutionContext) : Future[ProductAddResponse]
+    /**
+      * @see [[domain.Services.orderMgmr.api.productAdd]]
+      */
+    def productAdd(request: ProductAddRequest)(implicit ec: ExecutionContext) : Future[ProductAddResponse]
+
+    /**
+      * @see [[domain.Services.orderMgmr.api.orderPlace]]
+      */
+    def orderPlace(/*@todo*/) /*@todo*/
+
+    /**
+      * @see [[domain.Services.orderMgmr.api.ordersView]]
+      */
+    def ordersView(customerId : domain.CustomerId) : Future[List[Order]]
   }
 
   trait ProductAddRequest extends Request {
@@ -73,13 +96,7 @@ package object domain {
     def orderSummary : OrderSummary
   }
 
-//  trait PlaceOrder extends Command
-//
-//  trait ReviewOrderHistory extends Command
-
-  object Services {
-    val orderMgmr  = "orderMgmr"
-
-  }
-
+  //  trait PlaceOrder extends Command
+  //
+  //  trait ReviewOrderHistory extends Command
 }

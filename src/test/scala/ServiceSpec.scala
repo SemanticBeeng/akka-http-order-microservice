@@ -15,17 +15,17 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
 
   import domain.Services._
   import scenarios._
-  import ProductAddTest1._
 
   "OrderMgr" should "allow adding a product given any customer auth info" in {
 
-    ProductAddTest1.ProductAddSrv1.execute(productAddRequest)
-    Post(s"/$orderMgmr", productAddRequest) ~> routes ~> check {
+    import ProductAddTest._
+
+    Post(s"/${orderMgmr.name}/${orderMgmr.api.productAdd}", OrderMgmtService_productAdd.request) ~> routes ~> check {
       status shouldBe OK
       contentType shouldBe `application/json`
       val r = responseAs[ProductAddResponse]
       println(r)
-      responseAs[ProductAddResponse] shouldBe productAddResponse
+      responseAs[ProductAddResponse] shouldBe OrderMgmtService_productAdd.response
     }
 
   }
