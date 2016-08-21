@@ -14,12 +14,12 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
   override val logger = NoLogging
 
   import domain.Services._
-  import scenarios._
+  import orderMgmr._
+  import scenarios.{ProductAddResponse, Order}
 
   "OrderMgr" should "allow adding a product given any customer auth info" in {
 
-    import ProductAddTest._
-    import orderMgmr._
+    import scenarios.ProductAddTest._
 
     Post(s"/${orderMgmr.name}/${api.productAdd}", orderMgmtService.request) ~> routes ~> check {
       status shouldBe OK
@@ -32,8 +32,7 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
 
   "OrderMgr" should "allow viewing order history given any customer id" in {
 
-    import OrdersViewTest._
-    import orderMgmr._
+    import scenarios.OrdersViewTest._
 
     Get(s"/${orderMgmr.name}/${api.ordersView}/${orderMgmtService.request}") ~> routes ~> check {
       status shouldBe OK
