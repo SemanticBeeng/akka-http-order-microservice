@@ -43,7 +43,7 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
       val response = responseAs[List[Order]]
       println(response)
       response.size shouldBe 2
-      response.dropWhile(o => o.customerId == customer._3) shouldBe List.empty
+      response.dropWhile(_.customerId == customer._3) shouldBe List.empty
     }
   }
 }
