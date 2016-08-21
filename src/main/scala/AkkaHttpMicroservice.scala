@@ -4,7 +4,7 @@ import akka.http.scaladsl.Http
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._ //required
-import akka.http.scaladsl.marshalling.ToResponseMarshallable //required
+import akka.http.scaladsl.marshalling._ //required
 import akka.http.scaladsl.unmarshalling.Unmarshal //required
 import akka.stream.{ActorMaterializer, Materializer}
 import com.typesafe.config.Config
@@ -33,7 +33,7 @@ trait Service extends Protocols {
   def config: Config
   val logger: LoggingAdapter
 
-  val routes = {
+  def routes(service : domain.OrderMgmtService) = {
     import domain.Services._
     import scenarios._
     import orderMgmr._
@@ -44,14 +44,11 @@ trait Service extends Protocols {
         /**
           *
           */
-        (post & pathPrefix(api.productAdd) & entity(as[ProductAddRequest])) { productAddRequest =>
+        (post & pathPrefix(api.productAdd) & entity(as[ProductAddRequest])) { request =>
           complete {
 
-            // @todo fix Future marshalling
-            //ToResponseMarshallable.apply(ProductAddTest.orderMgmtService.productAdd(productAddRequest))
-            //ProductAddTest.orderMgmtService.productAdd(productAddRequest).mapTo[ToResponseMarshallable]
-
-            ToResponseMarshallable.apply(ProductAddTest.orderMgmtService.response)
+            // @todo fix marshalling issue due to interface vs. implementation
+            ToResponseMarshallable.apply(service.productAdd(request).asInstanceOf[Future[ProductAddResponse]])
           }
         } ~
           /**
@@ -60,16 +57,13 @@ trait Service extends Protocols {
         (get & pathPrefix(api.ordersView) & path(Segment)) { customerId =>
           complete {
 
-            // @todo fix Future marshalling
-            //ToResponseMarshallable.apply(OrdersViewTest.orderMgmtService.ordersView(customerId.toLong))
-
-            ToResponseMarshallable.apply(OrdersViewTest.orderMgmtService.response)
+            // @todo fix marshalling issue due to interface vs. implementation
+            ToResponseMarshallable.apply(service.ordersView(customerId.toLong).asInstanceOf[Future[List[Order]]])
           }
         }
       }
     }
   }
-
 }
 
 object AkkaHttpMicroservice extends App with Service {
@@ -80,5 +74,6 @@ object AkkaHttpMicroservice extends App with Service {
   override val config = ConfigFactory.load()
   override val logger = Logging(system, getClass)
 
-  Http().bindAndHandle(routes, config.getString("http.interface"), config.getInt("http.port"))
+  val service = null //@todo: create production implementation
+  Http().bindAndHandle(routes(service), config.getString("http.interface"), config.getInt("http.port"))
 }

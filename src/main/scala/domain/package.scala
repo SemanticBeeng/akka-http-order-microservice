@@ -72,7 +72,7 @@ package object domain {
     /**
       * @see [[domain.Services.orderMgmr.api.productAdd]]
       */
-    def productAdd(request: ProductAddRequest)(implicit ec: ExecutionContext) : Future[ProductAddResponse]
+    def productAdd(request: ProductAddRequest) : Future[ProductAddResponse]
 
     /**
       * @see [[domain.Services.orderMgmr.api.orderPlace]]

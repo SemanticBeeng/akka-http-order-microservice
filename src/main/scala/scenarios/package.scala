@@ -54,7 +54,7 @@ package object scenarios {
       /**
         * @see [[api.productAdd]]
         */
-      def productAdd(request: domain.ProductAddRequest)(implicit ec: ExecutionContext) : Future[domain.ProductAddResponse] = {
+      def productAdd(request: domain.ProductAddRequest) : Future[domain.ProductAddResponse] = {
         Future{ response }
       }
 
@@ -90,7 +90,7 @@ package object scenarios {
       /**
         * @see [[api.productAdd]]
         */
-      def productAdd(request: domain.ProductAddRequest)(implicit ec: ExecutionContext) : Future[domain.ProductAddResponse] = ???
+      def productAdd(request: domain.ProductAddRequest) : Future[domain.ProductAddResponse] = ???
 
       /**
         * @see [[api.orderPlace]]
