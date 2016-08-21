@@ -24,9 +24,12 @@ class ServiceSpec extends FlatSpec with Matchers with ScalatestRouteTest with Se
     Post(s"/${orderMgmr.name}/${api.productAdd}", orderMgmtService.request) ~> routes ~> check {
       status shouldBe OK
       contentType shouldBe `application/json`
-      val r = responseAs[ProductAddResponse]
-      println(r)
-      r shouldBe orderMgmtService.response
+      val response = responseAs[ProductAddResponse]
+      println(response)
+      response.result shouldBe true
+      response.orderSummary.customerId shouldBe customer._3
+      response.orderSummary.order.details.size shouldBe 1
+      response.orderSummary.order.details.head.productId shouldBe xspaceIceCream
     }
   }
 
