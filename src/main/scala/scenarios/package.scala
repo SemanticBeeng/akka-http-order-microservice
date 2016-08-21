@@ -1,6 +1,6 @@
 import domain.Services.orderMgmr.api
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -33,9 +33,9 @@ package object scenarios {
     val qty = 7
   }
 
-  case class ProductAddRequest(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty) extends domain.ProductAddRequest
-
-  case class ProductAddResponse(result : domain.ResultCode, orderSummary : OrderSummary) extends domain.ProductAddResponse
+//  case class ProductAddRequest(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty) extends domain.ProductAddRequest
+//
+//  case class ProductAddResponse(result : domain.ResultCode, orderSummary : OrderSummary) extends domain.ProductAddResponse
 
   /**
     *
@@ -46,15 +46,16 @@ package object scenarios {
     val orderSummary : OrderSummary = OrderSummary(customer._3, order)
     val result: domain.ResultCode = true
 
-    val orderMgmtService = new domain.OrderMgmtService {
+    val orderMgmtService = new domain.OrderMgmtService[AuthenticationInfo, OrderSummary, Order] {
 
-      val request = ProductAddRequest(auth, xspaceIceCream, qty)
-      val response = ProductAddResponse(result, orderSummary)
+      val request = /*ProductAddRequest*/(auth, xspaceIceCream, qty)
+      val response = /*ProductAddResponse*/(result, orderSummary)
 
       /**
         * @see [[api.productAdd]]
         */
-      def productAdd(request: domain.ProductAddRequest) : Future[domain.ProductAddResponse] = {
+      def productAdd(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty)
+      : Future[(domain.ResultCode, OrderSummary)] = {
         Future{ response }
       }
 
@@ -66,7 +67,7 @@ package object scenarios {
       /**
         * @see [[api.ordersView]]
         */
-      override def ordersView(customerId : domain.CustomerId): Future[List[domain.Order]] = ???
+      override def ordersView(customerId : domain.CustomerId): Future[List[Order]] = ???
     }
   }
 
@@ -85,19 +86,23 @@ package object scenarios {
       DbEntry(order3.customerId, order3)
     )
 
-    val orderMgmtService = new domain.OrderMgmtService {
+    val orderMgmtService = new domain.OrderMgmtService[AuthenticationInfo, OrderSummary, Order] {
 
       /**
         * @see [[api.productAdd]]
         */
-      def productAdd(request: domain.ProductAddRequest) : Future[domain.ProductAddResponse] = ???
+      def productAdd(auth: AuthenticationInfo, productId: domain.ProductId, qty: domain.ProductQty)
+      : Future[(domain.ResultCode, OrderSummary)]  = ???
 
       /**
         * @see [[api.orderPlace]]
         */
       override def orderPlace(): Unit = ???
 
-      def ordersFor(customerId: domain.CustomerId) : List[Order] = orders.filter(e => e.customerId == customerId).map(e => e.order)
+      def ordersFor(customerId: domain.CustomerId) : List[Order] = {
+
+        orders.filter(e => e.customerId == customerId).map(e => e.order)
+      }
 
       val request = customer._3
       val response = ordersFor(customer._3)

@@ -67,12 +67,13 @@ package object domain {
     }
   }
 
-  trait OrderMgmtService extends Service {
+  trait OrderMgmtService[AI <: domain.AuthenticationInfo, OS <: domain.OrderSummary, O <: domain.Order] extends Service {
 
     /**
       * @see [[domain.Services.orderMgmr.api.productAdd]]
       */
-    def productAdd(request: ProductAddRequest) : Future[ProductAddResponse]
+    def productAdd(auth: AI, productId: ProductId, qty: ProductQty)
+      : Future[(ResultCode, OS)]
 
     /**
       * @see [[domain.Services.orderMgmr.api.orderPlace]]
@@ -82,17 +83,17 @@ package object domain {
     /**
       * @see [[domain.Services.orderMgmr.api.ordersView]]
       */
-    def ordersView(customerId : domain.CustomerId) : Future[List[Order]]
+    def ordersView(customerId : domain.CustomerId) : Future[List[O]]
   }
 
-  trait ProductAddRequest extends Request {
-    def auth: AuthenticationInfo
-    def productId: ProductId
-    def qty: ProductQty
-  }
-
-  trait ProductAddResponse extends Response {
-    def result : ResultCode
-    def orderSummary : OrderSummary
-  }
+//  trait ProductAddRequest extends Request {
+//    def auth: AuthenticationInfo
+//    def productId: ProductId
+//    def qty: ProductQty
+//  }
+//
+//  trait ProductAddResponse extends Response {
+//    def result : ResultCode
+//    def orderSummary : OrderSummary
+//  }
 }

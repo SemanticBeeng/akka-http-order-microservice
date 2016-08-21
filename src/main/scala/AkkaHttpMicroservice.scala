@@ -21,8 +21,8 @@ trait Protocols extends DefaultJsonProtocol {
   implicit val OrderSummaryFormat = jsonFormat2(OrderSummary.apply)
   implicit val OrbitalCoordinatesFormat = jsonFormat3(OrbitalCoordinates.apply)
   implicit val AuthenticationInfoFormat = jsonFormat3(AuthenticationInfo.apply)
-  implicit val ProductAddRequestFormat = jsonFormat3(ProductAddRequest.apply)
-  implicit val ProductAddResponseFormat = jsonFormat2(ProductAddResponse.apply)
+//  implicit val ProductAddRequestFormat = jsonFormat3(ProductAddRequest.apply)
+//  implicit val ProductAddResponseFormat = jsonFormat2(ProductAddResponse.apply)
 }
 
 trait Service extends Protocols {
@@ -33,7 +33,7 @@ trait Service extends Protocols {
   def config: Config
   val logger: LoggingAdapter
 
-  def routes(service : domain.OrderMgmtService) = {
+  def routes(service : domain.OrderMgmtService[scenarios.AuthenticationInfo, scenarios.OrderSummary, scenarios.Order]) = {
     import domain.Services._
     import scenarios._
     import orderMgmr._
@@ -44,11 +44,12 @@ trait Service extends Protocols {
         /**
           *
           */
-        (post & pathPrefix(api.productAdd) & entity(as[ProductAddRequest])) { request =>
+        (post & pathPrefix(api.productAdd) & entity(as[(AuthenticationInfo, domain.ProductId, domain.ProductQty)])) {
+          request: (AuthenticationInfo, domain.ProductId, domain.ProductQty) =>
+
           complete {
 
-            // @todo fix marshalling issue due to interface vs. implementation
-            ToResponseMarshallable.apply(service.productAdd(request).asInstanceOf[Future[ProductAddResponse]])
+            ToResponseMarshallable.apply(service.productAdd(request._1, request._2, request._3))
           }
         } ~
           /**
@@ -57,8 +58,7 @@ trait Service extends Protocols {
         (get & pathPrefix(api.ordersView) & path(Segment)) { customerId =>
           complete {
 
-            // @todo fix marshalling issue due to interface vs. implementation
-            ToResponseMarshallable.apply(service.ordersView(customerId.toLong).asInstanceOf[Future[List[Order]]])
+            ToResponseMarshallable.apply(service.ordersView(customerId.toLong))
           }
         }
       }
