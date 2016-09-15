@@ -58,6 +58,8 @@ package object analytics {
 
     def shoppedProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
 
+    def madeReservation(customerId: CustomerId, res: ProductReservation, time: Timestamp): Unit
+
     def reservationExpired(customerId: CustomerId, res: ProductReservation, time: Timestamp): Unit
 
     def provideCustomerActivity(customerId: CustomerId): Future[CustomerActivityHistory]

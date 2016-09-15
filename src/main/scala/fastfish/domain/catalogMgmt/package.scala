@@ -22,7 +22,11 @@ package object catalogMgmt {
     def catalogPrice: Amount
   }
 
+  type productSearchCriteria = String
+
   trait ProductCatalog extends BusinessService {
+
+    def searchProduct(criteria: productSearchCriteria) : Stream[Product]
 
     def catalogProduct(p: Product) : Future[Either[DuplicateProductException, Unit]]
 
