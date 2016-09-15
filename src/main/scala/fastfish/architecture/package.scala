@@ -28,13 +28,15 @@ package object architecture {
   object Analytics_BoundedContext extends BoundedContext
 
   /**
-    * Location [[fastfish.domain.businessProcess.shopping]]
+    * Location [[fastfish.domain.businessProcess]]
     */
   object Shopping_BoundedContext extends BoundedContext
 
 
   object decisions {
 
-    val doNotUseCrossBoundedContextLanguage = ""
+    val doNotUseLanguageAcrossBoundedContexts = ""
+
+    val transformAcrossBoundariesInATypeSafeWay = ""
   }
 }
