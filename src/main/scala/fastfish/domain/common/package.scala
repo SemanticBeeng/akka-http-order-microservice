@@ -5,8 +5,7 @@ package fastfish.domain
   */
 package object common {
 
-  type CustomerId = Long
-  type ProductId = Long
+  trait DomainEvent
 
   trait BusinessService
 
@@ -15,4 +14,10 @@ package object common {
     */
   trait BusinessProcess
   trait BusinessException
+
+  /**
+    * Really part of the overall language
+    */
+  type CustomerId = Long
+  type ProductId = Long
 }

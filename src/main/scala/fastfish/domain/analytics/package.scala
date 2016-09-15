@@ -14,7 +14,8 @@ package object analytics {
 
   /**
     * The [[analytics]] view of a [[fastfish.domain.customerMgmt.Customer]]
-    * @arch : do not reference [[fastfish.domain.customerMgmt.Customer]] across the context boundary
+    * @archRule [[fastfish.architecture.decisions.doNotUseCrossBoundedContextLanguage]]
+    *          Do not reference [[fastfish.domain.customerMgmt.Customer]] but transform to [[CustomerPreferences]]
     */
   trait CustomerPreferences {
 
@@ -38,16 +39,28 @@ package object analytics {
 
   type Timestamp = Double
 
+  /**
+    * Monitors and logs various [[fastfish.domain.common.DomainEvent]]s relevant to analytics that occur as the
+    * [[fastfish.domain.customerMgmt.Customer]]s interact with the system.
+    */
   trait CustomerActivityMonitor extends BusinessService {
 
     /**
-      * @todo: handle [[fastfish.architecture.violations.boundaryCrossed]]
+      * @todo violated [[fastfish.architecture.decisions.doNotUseCrossBoundedContextLanguage]]
       */
     import fastfish.domain.inventoryMgmt.ProductReservation
 
+    def hadImpressionOnProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
+
+    def browsedProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
+
+    def reviewedProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
+
     def shoppedProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
+
     def reservationExpired(customerId: CustomerId, res: ProductReservation, time: Timestamp): Unit
-    def customerActivity(customerId: CustomerId): Future[CustomerActivityHistory]
+
+    def provideCustomerActivity(customerId: CustomerId): Future[CustomerActivityHistory]
   }
 
 }
