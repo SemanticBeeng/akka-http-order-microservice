@@ -12,7 +12,6 @@ import fastfish.domain.common.{Address, ProductId, BusinessService, BusinessExce
 package object catalogMgmt {
 
   trait ProductCategory {
-
   }
 
   trait Product {
@@ -46,9 +45,14 @@ package object catalogMgmt {
     def checkAgeRestrictions(age: Int, product: Product) : List[ProductNotAllowedException]  = ???
 
     /**
-      * @todo implement [[DomainRules.Inv_PerisableCannotBeShippedBeyondMaxDistance]]
+      * @todo implement [[DomainRules.Inv_PerishableCannotBeShippedBeyondMaxDistance]]
       */
     def checkShippingRestrictions(destination: Address, product: Product) : List[ProductNotAllowedException]  = ???
+
+    /**
+      * @todo implement [[DomainRules.Inv_OverAmountRequiresRecentCreditCheck]]
+      */
+    def checkMaxAmount(product: Product) : List[ProductNotAllowedException]  = ???
   }
 
   object DomainRules {
@@ -59,8 +63,13 @@ package object catalogMgmt {
     val Inv_HuntingGearIsNotAllowedUnderAge = ""
 
     /**
-      * [[Product]]s that are perisable cannot be shipped more that 100K
+      * [[Product]]s that are perishable cannot be shipped more that 100K
       */
-    val Inv_PerisableCannotBeShippedBeyondMaxDistance = ""
+    val Inv_PerishableCannotBeShippedBeyondMaxDistance = ""
+
+    /**
+      * [[Product]]s over 50000 USD require credit check not older that 60 days before shipping
+      */
+    val Inv_OverAmountRequiresRecentCreditCheck = ""
   }
 }

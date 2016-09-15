@@ -31,7 +31,7 @@ package object architecture {
   /**
     * Location [[fastfish.domain.businessProcess]]
     */
-  object Shopping_BoundedContext extends BoundedContext
+  object Shipping_BoundedContext extends BoundedContext
 
 
 
