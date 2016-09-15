@@ -14,7 +14,7 @@ package object analytics {
 
   /**
     * The [[analytics]] view of a [[fastfish.domain.customerMgmt.Customer]]
-    * @archRule [[fastfish.architecture.decisions.doNotUseLanguageAcrossBoundedContexts]]
+    * @archRule [[fastfish.architecture.decisions.DoNotUseLanguageAcrossBoundedContexts]]
     *          Do not reference [[fastfish.domain.customerMgmt.Customer]] but transform to [[CustomerPreferences]]
     */
   trait CustomerPreferences {
@@ -46,7 +46,7 @@ package object analytics {
   trait CustomerActivityMonitor extends BusinessService {
 
     /**
-      * @todo violated [[fastfish.architecture.decisions.doNotUseLanguageAcrossBoundedContexts]]
+      * @todo violated [[fastfish.architecture.decisions.DoNotUseLanguageAcrossBoundedContexts]]
       */
     import fastfish.domain.inventoryMgmt.ProductReservation
 
