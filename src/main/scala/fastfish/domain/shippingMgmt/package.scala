@@ -24,7 +24,7 @@ package object shippingMgmt {
     def status : Status
   }
 
-  trait Shipping extends BusinessProcess {
+  trait ShippingProcess extends BusinessProcess {
 
     /**
       * Attempts to schedule shipping and creates a [[ShippingSchedule]] and may "park" for human intervention if
