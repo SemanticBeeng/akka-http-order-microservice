@@ -10,7 +10,7 @@ import fastfish.domain.common.{ProductId, CustomerId, BusinessService}
   */
 package object analytics {
 
-  type Preference = String
+  trait Preference
 
   /**
     * The [[analytics]] view of a [[fastfish.domain.customerMgmt.Customer]]

@@ -23,14 +23,15 @@ package object architecture {
   object CustomerMgmt_BoundedContext extends BoundedContext
 
   /**
+    * Location [[fastfish.domain.analytics]]
+    */
+  object Analytics_BoundedContext extends BoundedContext
+
+  /**
     * Location [[fastfish.domain.businessProcess.shopping]]
     */
   object Shopping_BoundedContext extends BoundedContext
 
-  /**
-    * Location [[fastfish.domain.analytics]]
-    */
-  object Analytics_BoundedContext extends BoundedContext
 
   object decisions {
 
