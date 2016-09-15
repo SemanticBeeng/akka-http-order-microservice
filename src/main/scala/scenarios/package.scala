@@ -48,8 +48,8 @@ package object scenarios {
 
     val orderMgmtService = new domain.OrderMgmtService[AuthenticationInfo, OrderSummary, Order] {
 
-      val request = /*ProductAddRequest*/(auth, xspaceIceCream, qty)
-      val response = /*ProductAddResponse*/(result, orderSummary)
+      val request = (auth, xspaceIceCream, qty)
+      val response = (result, orderSummary)
 
       /**
         * @see [[api.productAdd]]
