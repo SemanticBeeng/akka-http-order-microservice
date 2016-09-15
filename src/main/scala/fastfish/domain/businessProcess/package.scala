@@ -2,8 +2,7 @@ package fastfish.domain
 
 import scala.concurrent.Future
 //
-import fastfish.domain.common.BusinessProcess
-import fastfish.domain.common.BusinessException
+import fastfish.domain.common.{PaymentInstrument, Address, BusinessProcess, BusinessException}
 //
 import fastfish.domain.catalogMgmt._
 import fastfish.domain.customerMgmt._
@@ -15,9 +14,6 @@ import fastfish.domain.inventoryMgmt._
 package object businessProcess {
 
   type NonEmptyList[T] = List[T]
-
-  trait Address
-  trait PaymentInstrument
 
   trait BillingTo {
     def address : Address

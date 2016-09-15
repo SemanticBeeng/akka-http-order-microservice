@@ -16,8 +16,11 @@ package object common {
   trait BusinessException
 
   /**
-    * Really part of the overall language
+    * Really part of the public domain language
     */
   type CustomerId = Long
   type ProductId = Long
+
+  trait Address
+  trait PaymentInstrument
 }
