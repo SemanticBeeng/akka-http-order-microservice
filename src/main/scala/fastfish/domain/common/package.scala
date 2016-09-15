@@ -20,6 +20,8 @@ package object common {
     */
   type CustomerId = Long
   type ProductId = Long
+  type Currency = Int
+  type Amount = (BigDecimal, Currency)
 
   trait Address
   trait PaymentInstrument

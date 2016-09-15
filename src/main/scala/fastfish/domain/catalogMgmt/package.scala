@@ -3,7 +3,7 @@ package fastfish.domain
 import scala.concurrent.Future
 
 //
-import fastfish.domain.common.{Address, ProductId, BusinessService, BusinessException}
+import fastfish.domain.common._
 
 
 /**
@@ -19,6 +19,7 @@ package object catalogMgmt {
     def id : ProductId
     def description: String
     def category : ProductCategory
+    def catalogPrice: Amount
   }
 
   trait ProductCatalog extends BusinessService {
@@ -48,11 +49,6 @@ package object catalogMgmt {
       * @todo implement [[DomainRules.Inv_PerishableCannotBeShippedBeyondMaxDistance]]
       */
     def checkShippingRestrictions(destination: Address, product: Product) : List[ProductNotAllowedException]  = ???
-
-    /**
-      * @todo implement [[DomainRules.Inv_OverAmountRequiresRecentCreditCheck]]
-      */
-    def checkMaxAmount(product: Product) : List[ProductNotAllowedException]  = ???
   }
 
   object DomainRules {
@@ -66,10 +62,5 @@ package object catalogMgmt {
       * [[Product]]s that are perishable cannot be shipped more that 100K
       */
     val Inv_PerishableCannotBeShippedBeyondMaxDistance = ""
-
-    /**
-      * [[Product]]s over 50000 USD require credit check not older that 60 days before shipping
-      */
-    val Inv_OverAmountRequiresRecentCreditCheck = ""
   }
 }

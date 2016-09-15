@@ -38,4 +38,25 @@ package object shippingMgmt {
   }
 
   trait ShippingParkedException extends BusinessException
+  trait ProductNotAllowedException extends BusinessException
+
+  /**
+    * @todo Not sure that this is the best place for this logic
+    */
+  object Validator {
+
+    /**
+      * @todo implement [[DomainRules.Inv_OverAmountRequiresRecentCreditCheck]]
+      */
+    def checkMaxAmount(productPrice: Amount) : List[ProductNotAllowedException]  = ???
+  }
+
+  object DomainRules {
+
+    /**
+      * [[fastfish.domain.catalogMgmt.Product]]s over 50000 USD require credit check not older that 60 days before shipping
+      */
+    val Inv_OverAmountRequiresRecentCreditCheck = ""
+  }
+
 }
