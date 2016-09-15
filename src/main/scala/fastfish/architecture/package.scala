@@ -32,4 +32,8 @@ package object architecture {
     */
   object Analytics_BoundedContext extends BoundedContext
 
+  object violations {
+
+    val boundaryCrossed
+  }
 }

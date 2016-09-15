@@ -2,8 +2,7 @@ package fastfish.domain
 
 import scala.concurrent.Future
 //
-import fastfish.domain.common.{CustomerId, BusinessService}
-import fastfish.domain.catalogMgmt.Product
+import fastfish.domain.common.{ProductId, CustomerId, BusinessService}
 
 
 /**
@@ -36,4 +35,19 @@ package object analytics {
       */
     def recommendFor(customerId: CustomerId, history: CustomerActivityHistory) : Future[List[Product]]
   }
+
+  type Timestamp = Double
+
+  trait CustomerActivityMonitor extends BusinessService {
+
+    /**
+      * @todo: handle [[fastfish.architecture.violations.boundaryCrossed]]
+      */
+    import fastfish.domain.inventoryMgmt.ProductReservation
+
+    def shoppedProduct(customerId: CustomerId, productId: ProductId, time: Timestamp): Unit
+    def reservationExpired(customerId: CustomerId, res: ProductReservation, time: Timestamp): Unit
+    def customerActivity(customerId: CustomerId): Future[CustomerActivityHistory]
+  }
+
 }
