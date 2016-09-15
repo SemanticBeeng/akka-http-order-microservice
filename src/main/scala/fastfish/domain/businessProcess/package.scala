@@ -32,14 +32,15 @@ package object businessProcess {
 
   trait ShoppingProcess extends BusinessProcess {
 
-    def startOrderFor(customer: RegisteredCustomer): Future[Either[OrderInProgressException, Order]]
+    def startOrderFor(customer: RegisteredCustomer)
+      : Future[Either[OrderInProgressException, Order]]
 
     def shopProducts(order: Order, items: List[(Product, ProductQty)]) : Future[Order]
 
     def recommendRelatedFor(order: Order) : Future[List[Product]]
 
     def checkoutOrder(order: Order, billTo: BillingTo, shipTo: ShippingTo)
-    : Future[Either[NonEmptyList[OrderCheckoutError], Order]]
+      : Future[Either[NonEmptyList[OrderCheckoutError], Order]]
 
     def expireOrder(order: Order) : Future[Order]
   }
