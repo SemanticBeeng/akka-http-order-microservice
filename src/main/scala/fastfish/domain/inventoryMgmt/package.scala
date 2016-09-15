@@ -5,12 +5,11 @@ import scala.concurrent.Future
 //
 import fastfish.domain.common.BusinessService
 import fastfish.domain.common.BusinessException
-import fastfish.domain.catalogMgmt.ProductId
-
+import fastfish.domain.common.ProductId
 
 
 /**
-  *
+  * @arch Belongs to [[fastfish.architecture.InventoryMgmt_BoundedContext]]
   */
 package object inventoryMgmt {
 

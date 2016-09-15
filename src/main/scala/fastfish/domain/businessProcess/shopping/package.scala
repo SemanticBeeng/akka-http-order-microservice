@@ -11,7 +11,7 @@ import fastfish.domain.inventoryMgmt._
 
 
 /**
-  *
+  * @arch Belongs to [[fastfish.architecture.Shopping_BoundedContext]]
   */
 package object shopping {
 
@@ -29,7 +29,11 @@ package object shopping {
     def address : Address
   }
 
-  trait Order
+  trait OrderItem extends ProductReservation
+  trait Order {
+
+    def items: List[OrderItem]
+  }
 
   trait ShoppingProcess extends BusinessProcess {
 

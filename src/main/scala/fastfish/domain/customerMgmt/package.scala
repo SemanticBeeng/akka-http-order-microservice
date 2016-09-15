@@ -2,16 +2,14 @@ package fastfish.domain
 
 import scala.concurrent.Future
 //
-import fastfish.domain.common.BusinessService
-import fastfish.domain.common.BusinessException
+import fastfish.domain.common.{CustomerId, BusinessService, BusinessException}
 
 /**
-  *
+  * @arch belongs to [[fastfish.architecture.CustomerMgmt_BoundedContext]]
   */
 package object customerMgmt {
 
-  type CustomerId = Long
-  type SafePassword = Stirng
+  type SafePassword = String
 
   trait AuthCredentials {
     def id: String

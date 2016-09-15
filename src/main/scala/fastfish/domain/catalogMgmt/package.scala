@@ -3,18 +3,16 @@ package fastfish.domain
 import scala.concurrent.Future
 
 //
-import fastfish.domain.common.BusinessService
-import fastfish.domain.common.BusinessException
+import fastfish.domain.common.{ProductId, BusinessService, BusinessException}
 
 
 /**
-  *
+  * @arch Belongs to [[fastfish.architecture.CatalogMgmt_BoundedContext]]
   */
 package object catalogMgmt {
 
-  type ProductId = Long
-
   trait Product {
+
     def id : ProductId
     def description: String
   }
