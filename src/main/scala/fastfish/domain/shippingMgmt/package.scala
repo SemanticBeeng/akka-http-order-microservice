@@ -16,7 +16,7 @@ import fastfish.domain.common._
   */
 package object shippingMgmt {
 
-  trait Status: String
+  type Status = String
 
   trait ShippingSchedule {
     def items: List[ProductReservation]
